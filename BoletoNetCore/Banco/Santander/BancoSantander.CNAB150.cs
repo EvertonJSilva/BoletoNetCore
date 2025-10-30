@@ -132,7 +132,7 @@ namespace BoletoNetCore
 
                 //Identificação de Ocorrência
                 boleto.CodigoMovimentoRetorno = registro.Substring(67, 2);
-                boleto.DescricaoMovimentoRetorno = Cnab.MovimentoRetornoCnab150(boleto.CodigoMovimentoRetorno);
+                boleto.DescricaoMovimentoRetorno = Cnab.MovimentoRetornoCnab150(boleto.CodigoMovimentoRetorno, boleto.Banco);
 
                 boleto.EspecieDocumento = TipoEspecieDocumento.NaoDefinido;
 

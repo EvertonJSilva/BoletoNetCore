@@ -91,11 +91,236 @@ namespace BoletoNetCore
             }
         }
 
-        public static string MovimentoRetornoCnab150(string codigo)
+        public static string MovimentoRetornoCnab150(string codigo, IBanco banco)
+        {
+            if (banco is BancoCaixa)
+            {
+                return MovimentoRetornoCnab150CEF(codigo);
+            }
+
+            return MovimentoRetornoCnab150Febraban(codigo);
+        }
+
+        public static string MovimentoRetornoCnab150CEF(string codigo)
         {
             switch (codigo)
             {
+                case "AA":
+                    return "Inclusão de optante não efetuada – cadastro rejeitado pelo cliente.";
+                case "AB":
+                    return "Inclusão de optante não efetuada – prazo expirado.";
+                case "BD":
+                    return "Inclusão efetuada com sucesso.";
+                case "HE":
+                    return "Tipo de Serviço Inválido para o Contrato.";
                 case "00":
+                    return "Débito/crédito efetuado ou inclusão de cadastro efetuada.";
+                case "01":
+                    return "Número Remessa Inválido.";
+                case "02":
+                    return "Arquivo sem HEADER.";
+                case "03":
+                    return "Tipo Registro Invalido.";
+                case "04":
+                    return "Código Banco Inválido.";
+                case "05":
+                    return "Insuficiência de Fundos.";
+                case "06":
+                    return "Tipo Serviço Inválido.";
+                case "07":
+                    return "Código do Convênio Inválido.";
+                case "08":
+                    return "Código da Remessa Inválido.";
+                case "09":
+                    return "Outras Restrições.";
+                case "10":
+                    return "Tipo de Operação Inválido.";
+                case "11":
+                    return "Agência Inválida.";
+                case "12":
+                    return "Número da Conta Inválido.";
+                case "13":
+                    return "Número de Lote Inválido.";
+                case "14":
+                    return "Código Segmento Inválido.";
+                case "15":
+                    return "Tipo Movimento Inválido";
+                case "16":
+                    return "Banco Favorecido Inválido.";
+                case "17":
+                    return "Nome do Favorecido Inválido.";
+                case "18":
+                    return "Seu Número Inválido.";
+                case "19":
+                    return "Data de Pagamento Inválido";
+                case "20":
+                    return "Tipo de Moeda Inválido.";
+                case "21":
+                    return "Quantidade de Moeda Inválida.";
+                case "22":
+                    return "Valor de Pagamento Inválido.";
+                case "23":
+                    return "Tipo de Inscrição Inválido.";
+                case "24":
+                    return "Número de Inscrição Inválido.";
+                case "25":
+                    return "Logradouro/Complemento Inválido.";
+                case "26":
+                    return "Num. Local do Favorecido Inválido";
+                case "27":
+                    return "Código Documento Favorecido Inválido.";
+                case "28":
+                    return "Bairro do Favorecido Inválido.";
+                case "29":
+                    return "Cidade do Favorecido Inválida.";
+                case "30":
+                    return "Num. CEP/Complemento Inválido.";
+                case "31":
+                    return "Estado do Favorecido Inválido.";
+                case "32":
+                    return "Código de Barras Inválido.";
+                case "33":
+                    return "Nome do Cedente Inválido.";
+                case "34":
+                    return "Data de Vencimento Inválida.";
+                case "35":
+                    return "Valor do Título Inválido.";
+                case "36":
+                    return "Qtde Regist. Lote C/Diferença.";
+                case "37":
+                    return "Valor Regist. Lote C/Diferença.";
+                case "38":
+                    return "Lote sem TRAILLER.";
+                case "39":
+                    return "Remessa sem TRAILLER.";
+                case "40":
+                    return "Total Registros do TRAILLER Inválido.";
+                case "41":
+                    return "Valor Total Registros do TRAILLER Inválido.";
+                case "42":
+                    return "Lote Fora de Seqüência.";
+                case "43":
+                    return "Nome Empresa Inválido.";
+                case "44":
+                    return "Num. Seq. De Registro Inválido.";
+                case "45":
+                    return "Nome do Banco Inválido.";
+                case "46":
+                    return "Data Movimento Inválida.";
+                case "47":
+                    return "Identificação Cliente Empresa Inválido.";
+                case "48":
+                    return "Código do Movimento Inválido.";
+                case "49":
+                    return "Tot. Lote no Arq C/Diferença.";
+                case "50":
+                    return "Convênio não Cadastrado.";
+                case "51":
+                    return "Parâmetro Transmissão não Cadastrado.";
+                case "52":
+                    return "Compromisso não Cadastrado.";
+                case "53":
+                    return "Agência Inativa.";
+                case "54":
+                    return "Agendamento já efetivado.";
+                case "55":
+                    return "Lote sem HEADER.";
+                case "56":
+                    return "Tipo de Operação Inválido.";
+                case "57":
+                    return "Agência Invalida.";
+                case "58":
+                    return "Cadastramento Convênio Incompleto.";
+                case "59":
+                    return "Situação Atual Convênio não ativo.";
+                case "60":
+                    return "Conta a Debitar Inexistente no Cadastro de Optantes.";
+                case "61":
+                    return "Conta Compromisso Inválida. ";
+                case "62":
+                    return "Número do Convênio Inválido.";
+                case "63":
+                    return "Tipo de Compromisso Inválido.";
+                case "64":
+                    return "Número de Compromisso Inválido.";
+                case "65":
+                    return "Mais de 1 TRAILLER na Remessa.";
+                case "66":
+                    return "Remessa com Erro.";
+                case "67":
+                    return "Data Opção Inválida.";
+                case "68":
+                    return "tde Moeda Lote C/Diferença.";
+                case "69":
+                    return "Optante já cadastrado para este Convênio.";
+                case "70":
+                    return "Indicação de Aviso sem endereço.";
+                case "71":
+                    return "Cód. De Barras/Cód. Banco Inválido.";
+                case "72":
+                    return "Cód. De Barras/Cód.Moeda Inválido.";
+                case "73":
+                    return "Cód de Barras/Dígito Verificador Geral Inválido.";
+                case "74":
+                    return "Código de Barras/Valor do Título Inválido.";
+                case "76":
+                    return "Quantidade de Parcelas Inválida.";
+                case "77":
+                    return "Indicador Bloqueio Parcela Inválido";
+                case "78":
+                    return "Cadastro de Optantes Inexistente, rejeitado, bloqueado, cancelado ou pendente de autorização.";
+                case "79":
+                    return "Opção de Aviso sem endereço.";
+                case "80":
+                    return "Opção de Doc/OP sem endereço.";
+                case "81":
+                    return "Conta não Cadastrada.";
+                case "82":
+                    return "Tipo de Conta Inválido.";
+                case "83":
+                    return "Tipo de Operação diverge de Tipo de Compromisso.";
+                case "84":
+                    return "Tipo de Operação diverge com Tipo de Serviço.";
+                case "85":
+                    return "Data Cancelamento Expirada.";
+                case "86":
+                    return "Agendamento não Encontrado.";
+                case "87":
+                    return "Valor do débito maior que o valor limite.";
+                case "88":
+                    return "Índice Inválido.";
+                case "89":
+                    return "Data Atual do Compromisso não Ativa.";
+                case "90":
+                    return "Histórico não cadastrado.";
+                case "91":
+                    return "Registro já Existente na Base.";
+                case "92":
+                    return "Forma Parcelamento/Período Inválido.";
+                case "93":
+                    return "Erro no acesso TAB Parâmetro de Optantes.";
+                case "94":
+                    return "Convênio não cadastrado na TAB Parâmetro Optantes.";
+                case "95":
+                    return "Arquivo com data vencimento inferior a 03 dias úteis.";
+                case "96":
+                    return "Manutenção de Cadastro.";
+                case "97":
+                    return "Câmara de Compensação Inválida.";
+                case "99":
+                    return "Cancelamento - Cancelado conforme solicitação da empresa ou do cliente.";
+                case "100":
+                    return "Código DOC Favorecido Inválido.";
+                default:
+                    return "";
+            }
+        }
+
+        public static string MovimentoRetornoCnab150Febraban(string codigo)
+        {
+            switch (codigo)
+            {
+                case "00": 
                     return "Débito efetuado";
                 case "01":
                     return "Débito não efetuado -Insuficiência de fundos";

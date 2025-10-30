@@ -132,12 +132,18 @@ namespace BoletoNetCore
 
                 //Identificação de Ocorrência
                 boleto.CodigoMovimentoRetorno = registro.Substring(67, 2);
-                boleto.DescricaoMovimentoRetorno = Cnab.MovimentoRetornoCnab150(boleto.CodigoMovimentoRetorno);
+                boleto.DescricaoMovimentoRetorno = Cnab.MovimentoRetornoCnab150(boleto.CodigoMovimentoRetorno, boleto.Banco);
 
                 boleto.EspecieDocumento = TipoEspecieDocumento.NaoDefinido;
 
+                boleto.MensagemArquivoRemessa = registro.Substring(69, 60);
+
                 boleto.Pagador = new Pagador();
-                boleto.Pagador.CPFCNPJ = registro.Substring(130, 15);
+                var cpfCnpj = registro.Substring(130, 15).Trim();
+                if (!string.IsNullOrEmpty(cpfCnpj))
+                {
+                    boleto.Pagador.CPFCNPJ = cpfCnpj;
+                }
 
                 // Registro Retorno
                 boleto.RegistroArquivoRetorno = boleto.RegistroArquivoRetorno + registro + Environment.NewLine;
