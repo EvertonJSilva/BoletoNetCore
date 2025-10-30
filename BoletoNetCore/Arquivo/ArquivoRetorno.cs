@@ -55,6 +55,10 @@ namespace BoletoNetCore
                         {
                             LerLinhaDoArquivoRetornoCNAB400(registro);
                         }
+                        if (TipoArquivo == TipoArquivo.CNAB150)
+                        {
+                            LerLinhaDoArquivoRetornoCNAB150(registro);
+                        }
                     }
                 }
             }
@@ -104,6 +108,11 @@ namespace BoletoNetCore
                         {
                             LerLinhaDoArquivoRetornoCNAB400(registro);
                         }
+                        else
+                        if (TipoArquivo == TipoArquivo.CNAB150)
+                        {
+                            LerLinhaDoArquivoRetornoCNAB150(registro);
+                        }
                     }
                 }
             }
@@ -111,7 +120,31 @@ namespace BoletoNetCore
             {
                 throw new Exception("Erro ao ler arquivo.", ex);
             }
+        }
 
+        private void LerLinhaDoArquivoRetornoCNAB150(string registro)
+        {
+            IBancoCNAB150 b = (IBancoCNAB150)Banco;
+            if (b == null) throw new Exception("Leitura CNAB150 não implementada para este banco.");
+
+            var tipoRegistro = registro.Substring(149, 1);
+            var tipoSegmento = registro.Substring(0, 1);
+
+            if (tipoRegistro == "0" & tipoSegmento == "A")
+            {
+                //REGISTRO HEADER DO ARQUIVO RETORNO
+                b.LerHeaderRetornoCNAB150(this, registro);
+                return;
+            }
+
+            if (tipoRegistro == "0" & tipoSegmento == "F")
+            {
+                // Segmento F - Indica um novo boleto
+                var boleto = new Boleto(this.Banco, _ignorarCarteiraBoleto);
+                b.LerDetalheRetornoCNAB150SegmentoF(ref boleto, registro);
+                Boletos.Add(boleto);
+                return;
+            }
         }
 
         private void LerLinhaDoArquivoRetornoCNAB240(string registro)

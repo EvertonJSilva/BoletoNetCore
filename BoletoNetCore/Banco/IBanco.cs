@@ -174,6 +174,10 @@ namespace BoletoNetCore
             int numeroRegistroCobrancaVinculada, decimal valorCobrancaVinculada,
             int numeroRegistroCobrancaCaucionada, decimal valorCobrancaCaucionada,
             int numeroRegistroCobrancaDescontada, decimal valorCobrancaDescontada);
+
+        void LerHeaderRetornoCNAB150(ArquivoRetorno arquivoRetorno, string registro);
+
+        void LerDetalheRetornoCNAB150SegmentoF(ref Boleto boleto, string registro);
     }
 
     /// <summary>

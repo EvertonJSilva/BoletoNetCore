@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.Contracts;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -83,6 +86,53 @@ namespace BoletoNetCore
                     return "Alteração de Dados";
                 case "BD":
                     return "Ocorrências para o Retorno";
+                default:
+                    return "";
+            }
+        }
+
+        public static string MovimentoRetornoCnab150(string codigo)
+        {
+            switch (codigo)
+            {
+                case "00":
+                    return "Débito efetuado";
+                case "01":
+                    return "Débito não efetuado -Insuficiência de fundos";
+                case "02":
+                    return "Débito não efetuado -Conta não cadastrada";
+                case "04":
+                    return "Débito não efetuado -Outras restrições";
+                case "05":
+                    return "Débito não efetuado – valor do débito excede valor limite aprovado.";
+                case "10":
+                    return "Débito não efetuado -Agência em regime de encerramento";
+                case "12":
+                    return "Débito não efetuado -Valor inválido";
+                case "13":
+                    return "Débito não efetuado -Data de lançamento inválida";
+                case "14":
+                    return "Débito não efetuado -Agência inválida";
+                case "15":
+                    return "Débito não efetuado -conta inválida";
+                case "18":
+                    return "Débito não efetuado -Data do débito anterior à do processamento";
+                case "19":
+                    return "Débito não efetuado – Agência / Conta não pertence ao CPF / CNPJ informado";
+                case "20":
+                    return "Débito não efetuado – conta conjunta não solidária";
+                case "30":
+                    return "Débito não efetuado -Sem contrato de débito automático";
+                case "31":
+                    return "Débito efetuado em data diferente da data informada – feriado na praça de débito";
+                case "96":
+                    return "Manutenção do Cadastro";
+                case "97":
+                    return "Cancelamento - Não encontrado";
+                case "98":
+                    return "Cancelamento - Não efetuado, fora do tempo hábil";
+                case "99":
+                    return "Cancelamento - cancelado conforme solicitação";
                 default:
                     return "";
             }
