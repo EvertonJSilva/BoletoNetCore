@@ -133,8 +133,8 @@ namespace BoletoNetCore
                 boleto.AgenciaDebitada = registro.Substring(26, 4);
                 boleto.ContaDebitada = registro.Substring(30, 14);
 
-                boleto.DataVencimento = Utils.ToDateTime(Utils.ToInt32(registro.Substring(44, 8)).ToString("##-##-####"));
-                boleto.DataCredito = Utils.ToDateTime(Utils.ToInt32(registro.Substring(44, 8)).ToString("##-##-####"));
+                boleto.DataVencimento = Utils.ToDateTime(Utils.ToInt32(registro.Substring(44, 8)).ToString("####-##-##"));
+                boleto.DataCredito = Utils.ToDateTime(Utils.ToInt32(registro.Substring(44, 8)).ToString("####-##-##"));
 
                 boleto.ValorTitulo = Convert.ToDecimal(registro.Substring(52, 15)) / 100;
 
