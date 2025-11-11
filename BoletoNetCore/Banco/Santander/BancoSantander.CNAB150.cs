@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BoletoNetCore.Extensions;
+using System;
 using static System.String;
 
 namespace BoletoNetCore
@@ -136,8 +137,14 @@ namespace BoletoNetCore
 
                 boleto.EspecieDocumento = TipoEspecieDocumento.NaoDefinido;
 
+                boleto.MensagemArquivoRemessa = registro.Substring(69, 60);
+
                 boleto.Pagador = new Pagador();
-                boleto.Pagador.CPFCNPJ = registro.Substring(130, 15);
+                var cpfCnpj = registro.Substring(130, 15).Trim();
+                if (!string.IsNullOrEmpty(cpfCnpj))
+                {
+                    boleto.Pagador.CPFCNPJ = cpfCnpj.Left(4) == "0000" ? cpfCnpj.Right(11) : cpfCnpj;
+                }
 
                 // Registro Retorno
                 boleto.RegistroArquivoRetorno = boleto.RegistroArquivoRetorno + registro + Environment.NewLine;

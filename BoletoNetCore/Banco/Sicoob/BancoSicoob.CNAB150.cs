@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BoletoNetCore.Extensions;
+using System;
 using static System.String;
 
 namespace BoletoNetCore
@@ -150,7 +151,7 @@ namespace BoletoNetCore
                 var cpfCnpj = registro.Substring(130, 15).Trim();
                 if (!string.IsNullOrEmpty(cpfCnpj))
                 {
-                    boleto.Pagador.CPFCNPJ = cpfCnpj;
+                    boleto.Pagador.CPFCNPJ = cpfCnpj.Left(4) == "0000" ? cpfCnpj.Right(11) : cpfCnpj;
                 }
 
                 // Registro Retorno
