@@ -23,7 +23,7 @@ namespace BoletoNetCore
                 reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0082, 017, 0, "DEB AUTOMAT", ' ');
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0099, 004, 0, Beneficiario.ContaBancaria.Agencia, '0');
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0103, 003, 0, Beneficiario.ContaBancaria.OperacaoConta, '0');
-                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0106, 008, 0, Beneficiario.ContaBancaria.Conta, '0');
+                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0106, 008, 0, Beneficiario.ContaBancaria.Conta.PadLeft(8,'0').Right(8), '0');
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0114, 001, 0, Beneficiario.ContaBancaria.DigitoConta, '0');
                 reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0115, 001, 0, "P", ' ');
                 reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0116, 001, 0, "P", ' ');
