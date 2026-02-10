@@ -35,6 +35,65 @@ namespace BoletoNetCore
         public static IBanco Instancia(Bancos codigoBanco)
             => Instancia((int)codigoBanco);
 
+        public static IBanco NovaInstancia(int codigoBanco)
+        {
+            IBanco classe;
+            switch (codigoBanco)
+            {
+                case 001:
+                    classe = new BancoBrasil();
+                    break;
+                case 004:
+                    classe = new BancoNordeste();
+                    break;
+                case 033:
+                    classe = new BancoSantander();
+                    break;
+                case 041:
+                    classe = new BancoBanrisul();
+                    break;
+                case 084:
+                    classe = new BancoUniprimeNortePR();
+                    break;
+                case 085:
+                    classe = new BancoCecred();
+                    break;
+                case 104:
+                    classe = new BancoCaixa();
+                    break;
+                case 237:
+                    classe = new BancoBradesco();
+                    break;
+                case 341:
+                    classe = new BancoItau();
+                    break;
+                case 422:
+                    classe = new BancoSafra();
+                    break;
+                case 748:
+                    classe = new BancoSicredi();
+                    break;
+                case 756:
+                    classe = new BancoSicoob();
+                    break;
+                case 097:
+                    classe = new BancoCrediSIS();
+                    break;
+                case 077:
+                    classe = new BancoInter();
+                    break;
+                case 208:
+                    classe = new BancoBTGPactual();
+                    break;
+                case 707:
+                    classe = new BancoDaycoval();
+                    break;
+                default:
+                    throw BoletoNetCoreException.BancoNaoImplementado(codigoBanco);
+            }
+            return classe;
+        }
+
         /// <summary>
         ///     Formata código de barras
         ///     O código de barra para cobrança contém 44 posições dispostas da seguinte forma:
