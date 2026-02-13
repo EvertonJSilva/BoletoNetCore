@@ -158,8 +158,8 @@ namespace BoletoNetCore
             reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0024, 005, 0, boleto.AgenciaDebitada, '0');
             reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0029, 001, 0, boleto.DigitoVerificadorAgenciaDebitada, '0');
             reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0030, 012, 0, boleto.ContaDebitada, '0');
-            reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0042, 001, 0, boleto.DigitoVerificadorAgenciaContaDebitada, '0');
-            reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0043, 001, 0, boleto.DigitoVerificadorAgenciaContaDebitada, '0'); // Dac ????
+            reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0042, 001, 0, boleto.DigitoVerificadorContaDebitada, '0');
+            reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0043, 001, 0, boleto.DigitoVerificadorContaDebitada, '0'); // Dac ????
             reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0044, 030, 0, boleto.Pagador.Nome, ' ');
             reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0074, 020, 0, boleto.NumeroControleParticipante, ' ');
             reg.Adicionar(TTiposDadoEDI.ediDataDDMMAAAA_________, 0094, 008, 0, boleto.DataVencimento, ' ');

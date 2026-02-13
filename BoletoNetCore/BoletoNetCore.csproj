@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>Ejsilva.BoletoNetCore</PackageId>
     <title>BoletoNetCore</title>
-    <version>3.0.1.521</version>
+    <version>3.0.1.523</version>
     <authors>BoletoNetCore</authors>
     <owners>BoletoNetCore</owners>
     <projectUrl>https://github.com/BoletoNet/BoletoNetCore/</projectUrl>

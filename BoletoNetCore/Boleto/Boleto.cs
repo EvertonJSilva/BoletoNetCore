@@ -163,9 +163,9 @@ namespace BoletoNetCore
         public string DigitoVerificadorAgenciaDebitada { get; set; }
 
         /// <summary>
-        /// Digito Verificador da Agência / Conta na qual o boleto/título a ser debitada
+        /// Digito Verificador da conta / Conta na qual o boleto/título a ser debitada
         /// </summary>
-        public string DigitoVerificadorAgenciaContaDebitada { get; set; }
+        public string DigitoVerificadorContaDebitada { get; set; }
 
         /// <summary>
         /// C044 - Código de Movimento Retorno

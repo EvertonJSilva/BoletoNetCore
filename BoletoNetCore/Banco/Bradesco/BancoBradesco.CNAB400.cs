@@ -137,7 +137,7 @@ namespace BoletoNetCore
                     reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0007, 001, 0, boleto.DigitoVerificadorAgenciaDebitada, ' ');
                     reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0008, 005, 0, "07050", '0');
                     reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0013, 007, 0, boleto.ContaDebitada, '0');
-                    reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0020, 001, 0, boleto.DigitoVerificadorAgenciaContaDebitada, ' ');
+                    reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0020, 001, 0, boleto.DigitoVerificadorContaDebitada, ' ');
                 }
                 else
                 {

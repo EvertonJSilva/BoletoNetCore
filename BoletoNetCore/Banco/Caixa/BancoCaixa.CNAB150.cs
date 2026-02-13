@@ -45,13 +45,15 @@ namespace BoletoNetCore
             try
             {
                 // O número de registros no lote é igual ao número de registros gerados + 2 (header e trailler do lote)
-                var numeroRegistrosNoLote = numeroRegistroGeral + 3;
+                var numeroLinhasNoLote = numeroRegistroGeral + 2;
+                var numeroRegistros = numeroRegistroGeral + 1;
+
                 var reg = new TRegistroEDI();
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0001, 001, 0, "Z", '0');
-                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0002, 006, 0, numeroRegistrosNoLote, '0');
+                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0002, 006, 0, numeroLinhasNoLote, '0');
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0008, 017, 2, valorCobrancaSimples, '0');
                 reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0025, 119, 0, Empty, ' ');
-                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0144, 006, 0, 0, '0');
+                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0144, 006, 0, numeroRegistros, '0');
                 reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0150, 001, 0, Empty, ' ');
 
                 reg.CodificarLinha();
@@ -80,7 +82,7 @@ namespace BoletoNetCore
             var reg = new TRegistroEDI();
             registro++;
 
-            string dadosConta = $"{boleto.ContaDebitada}{boleto.DigitoVerificadorAgenciaContaDebitada}";
+            string dadosConta = $"{boleto.ContaDebitada}{boleto.DigitoVerificadorContaDebitada}";
 
             reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0001, 001, 0, "E", '0');
             reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0002, 025, 0, boleto.NumeroControleParticipante, ' ');
