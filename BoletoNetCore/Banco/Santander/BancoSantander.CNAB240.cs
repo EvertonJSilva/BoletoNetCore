@@ -405,7 +405,7 @@ namespace BoletoNetCore
             //018 - 032 Nº de inscrição da empresa N 015
             arquivoRetorno.Banco.Beneficiario.CPFCNPJ = registro.Substring(16, 1) == "1" ? registro.Substring(21, 11) : registro.Substring(18, 14);
             //053 - 061 Código do Beneficiário N 009
-            arquivoRetorno.Banco.Beneficiario.Codigo = registro.Substring(54, 7);
+            arquivoRetorno.Banco.Beneficiario.Codigo = registro.Substring(52, 9);
             //073 - 102 Nome da empresa A 030
             arquivoRetorno.Banco.Beneficiario.Nome = registro.Substring(72, 30).Trim();
 
