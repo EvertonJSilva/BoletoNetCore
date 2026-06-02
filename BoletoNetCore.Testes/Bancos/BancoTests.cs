@@ -32,7 +32,7 @@ namespace BoletoNetCore.Testes
 
             _boleto = new Boleto(_banco)
             {
-                DataVencimento = new DateTime(2016, 9, 2),
+                DataVencimento = new DateTime(2026, 9, 2),
                 ValorTitulo = 2924.11M,
                 NossoNumero = "445",
                 NumeroDocumento = "BB874A",
@@ -129,7 +129,7 @@ namespace BoletoNetCore.Testes
 
             Banco.FormataCodigoBarra(_boleto);
 
-            Assert.AreEqual(_boleto.CodigoBarra.CodigoDeBarras, "03397690500002924119123456700000000044560101");
+            Assert.AreEqual(_boleto.CodigoBarra.CodigoDeBarras, "03392155700002924119123456700000000044560101");
 
         }
 
@@ -157,7 +157,7 @@ namespace BoletoNetCore.Testes
 
             Banco.FormataLinhaDigitavel(_boleto);
 
-            Assert.AreEqual(_boleto.CodigoBarra.LinhaDigitavel, "03399.12347 56700.000005 00445.601016 7 69050000292411");
+            Assert.AreEqual(_boleto.CodigoBarra.LinhaDigitavel, "03399.12347 56700.000005 00445.601016 2 15570000292411");
         }
 
     }

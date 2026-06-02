@@ -82,6 +82,11 @@ namespace BoletoNetCore
         public decimal ValorPago { get; set; } // ValorPago deve ser preenchido com o valor que o pagador pagou. Se não existir essa informação no arquivo retorno, deixar zerada.
         public decimal ValorPagoCredito { get; set; } // ValorPagoCredito deve ser preenchido com o valor que será creditado na conta corrente. Se não existir essa informação no arquivo retorno, deixar zerada.
         public decimal ValorDesconto { get; set; }
+
+        /// <summary>
+        /// Valor do desconto por dia até o vencimento, valor literal(ex: R$ 0,50). Opção disponível para alguns bancos.
+        /// </summary>
+        public decimal ValorDescontoPorDiaAteVencimento { get; set; } = 0;
         public decimal ValorTarifas { get; set; }
         public decimal ValorOutrasDespesas { get; set; }
         public decimal ValorOutrosCreditos { get; set; }
