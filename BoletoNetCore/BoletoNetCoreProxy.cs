@@ -17,6 +17,7 @@ namespace BoletoNetCore
         protected Boletos boletos = new Boletos();
         public int quantidadeBoletos { get { return boletos.Count; } }
         public Boleto boleto { get; set; }
+        public IBanco banco { get; private set; }
         protected bool setupOk { get; set; } = false;
 
         public bool SetupCobranca(string cnpj, string razaoSocial,
@@ -76,7 +77,8 @@ namespace BoletoNetCore
                 }
 
                 // Banco, Beneficiario, Conta Corrente
-                boletos.Banco = Banco.Instancia(numeroBanco);
+                banco = Banco.NovaInstancia(numeroBanco);
+                boletos.Banco = banco;
                 boletos.Banco.Beneficiario = new Beneficiario
                 {
                     CPFCNPJ = cnpj,

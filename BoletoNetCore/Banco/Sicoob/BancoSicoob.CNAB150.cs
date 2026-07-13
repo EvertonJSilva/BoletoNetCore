@@ -1,11 +1,12 @@
-﻿using System;
+﻿using BoletoNetCore.Extensions;
+using System;
 using static System.String;
 
 namespace BoletoNetCore
 {
     partial class BancoSicoob : IBancoCNAB150
     {
-        public string GerarHeaderRemessaCNAB150(ref int numeroArquivoRemessa, ref int numeroRegistro)
+        public override string GerarHeaderRemessaCNAB150(ref int numeroArquivoRemessa, ref int numeroRegistro)
         {
             try
             {
@@ -30,27 +31,7 @@ namespace BoletoNetCore
             }
         }
 
-        public string GerarTrailerRemessaCNAB150(int numeroRegistroGeral, decimal valorBoletoGeral, int numeroRegistroCobrancaSimples, decimal valorCobrancaSimples, int numeroRegistroCobrancaVinculada, decimal valorCobrancaVinculada, int numeroRegistroCobrancaCaucionada, decimal valorCobrancaCaucionada, int numeroRegistroCobrancaDescontada, decimal valorCobrancaDescontada)
-        {
-            try
-            {
-                // O número de registros no lote é igual ao número de registros gerados + 2 (header e trailler do lote)
-                var numeroRegistrosNoLote = numeroRegistroGeral + 2;
-                var reg = new TRegistroEDI();
-                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0001, 001, 0, "Z", '0');
-                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0002, 006, 0, numeroRegistroGeral, '0');
-                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0008, 017, 2, valorCobrancaSimples, '0');
-                reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0025, 126, 0, Empty, ' ');
-                reg.CodificarLinha();
-                return reg.LinhaRegistro;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao gerar TRAILER do lote no arquivo de remessa do CNAB240.", ex);
-            }
-        }
-
-        public string GerarDetalheRemessaCNAB150(Boleto boleto, ref int registro)
+        public override string GerarDetalheRemessaCNAB150(Boleto boleto, ref int registro)
         {
             string detalhe = Empty;
             detalhe += GerarDetalheSegmentoERemessaCNAB150(boleto, ref registro);
@@ -63,7 +44,7 @@ namespace BoletoNetCore
             registro++;
 
             string tipoIdentificacao = (boleto.Pagador.CPFCNPJ.Trim().Length == 11) ? "1" : "2";
-            string dadosConta = $"{boleto.ContaDebitada}{boleto.DigitoVerificadorAgenciaContaDebitada}";
+            string dadosConta = $"{boleto.ContaDebitada}{boleto.DigitoVerificadorContaDebitada}";
 
             reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0001, 001, 0, "E", '0');
             reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0002, 025, 0, boleto.NumeroControleParticipante, ' ');
@@ -84,10 +65,9 @@ namespace BoletoNetCore
             reg.CodificarLinha();
             var vLinha = reg.LinhaRegistro;
             return vLinha;
-
         }
 
-        public string GerarTrailerLoteRemessaCNAB150(ref int numeroArquivoRemessa, int numeroRegistroGeral, decimal valorBoletoGeral, int numeroRegistroCobrancaSimples, decimal valorCobrancaSimples, int numeroRegistroCobrancaVinculada, decimal valorCobrancaVinculada, int numeroRegistroCobrancaCaucionada, decimal valorCobrancaCaucionada, int numeroRegistroCobrancaDescontada, decimal valorCobrancaDescontada)
+        public override string GerarTrailerLoteRemessaCNAB150(ref int numeroArquivoRemessa, int numeroRegistroGeral, decimal valorBoletoGeral, int numeroRegistroCobrancaSimples, decimal valorCobrancaSimples, int numeroRegistroCobrancaVinculada, decimal valorCobrancaVinculada, int numeroRegistroCobrancaCaucionada, decimal valorCobrancaCaucionada, int numeroRegistroCobrancaDescontada, decimal valorCobrancaDescontada)
         {
             try
             {
@@ -107,6 +87,79 @@ namespace BoletoNetCore
             catch (Exception ex)
             {
                 throw new Exception("Erro ao gerar TRAILER do lote no arquivo de remessa do CNAB150.", ex);
+            }
+        }
+
+        public override string GerarTrailerRemessaCNAB150(int numeroRegistroGeral, decimal valorBoletoGeral, int numeroRegistroCobrancaSimples, decimal valorCobrancaSimples, int numeroRegistroCobrancaVinculada, decimal valorCobrancaVinculada, int numeroRegistroCobrancaCaucionada, decimal valorCobrancaCaucionada, int numeroRegistroCobrancaDescontada, decimal valorCobrancaDescontada)
+        {
+            try
+            {
+                // O número de registros no lote é igual ao número de registros gerados + 2 (header e trailler do lote)
+                var numeroRegistrosNoLote = numeroRegistroGeral + 3;
+                var reg = new TRegistroEDI();
+                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0001, 001, 0, "Z", '0');
+                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0002, 006, 0, numeroRegistrosNoLote, '0');
+                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0008, 017, 2, valorCobrancaSimples, '0');
+                reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0025, 119, 0, Empty, ' ');
+                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0144, 006, 0, 0, '0');
+                reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0150, 001, 0, Empty, ' ');
+
+                reg.CodificarLinha();
+                return reg.LinhaRegistro;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao gerar TRAILER no arquivo de remessa do CNAB150.", ex);
+            }
+        }
+
+        public override void LerHeaderRetornoCNAB150(ArquivoRetorno arquivoRetorno, string registro)
+        {
+            arquivoRetorno.Banco.Beneficiario = new Beneficiario();
+            arquivoRetorno.Banco.Beneficiario.Codigo = registro.Substring(2, 20).Trim();
+            arquivoRetorno.Banco.Beneficiario.Nome = registro.Substring(22, 20).Trim();
+
+            arquivoRetorno.Banco.Beneficiario.ContaBancaria = new ContaBancaria();
+
+            arquivoRetorno.DataGeracao = Utils.ToDateTime(Utils.ToInt32(registro.Substring(65, 8)).ToString("##-##-####"));
+            arquivoRetorno.NumeroSequencial = Utils.ToInt32(registro.Substring(73, 6));
+        }
+
+        public override void LerDetalheRetornoCNAB150SegmentoF(ref Boleto boleto, string registro)
+        {
+            try
+            {
+                boleto.NumeroControleParticipante = registro.Substring(1, 25);
+
+                boleto.AgenciaDebitada = registro.Substring(26, 4);
+                boleto.ContaDebitada = registro.Substring(30, 14);
+
+                boleto.DataVencimento = Utils.ToDateTime(Utils.ToInt32(registro.Substring(44, 8)).ToString("####-##-##"));
+                boleto.DataCredito = Utils.ToDateTime(Utils.ToInt32(registro.Substring(44, 8)).ToString("####-##-##"));
+
+                boleto.ValorTitulo = Convert.ToDecimal(registro.Substring(52, 15)) / 100;
+
+                //Identificação de Ocorrência
+                boleto.CodigoMovimentoRetorno = registro.Substring(67, 2);
+                boleto.DescricaoMovimentoRetorno = Cnab.MovimentoRetornoCnab150(boleto.CodigoMovimentoRetorno, boleto.Banco);
+
+                boleto.EspecieDocumento = TipoEspecieDocumento.NaoDefinido;
+
+                boleto.MensagemArquivoRemessa = registro.Substring(69, 60);
+
+                boleto.Pagador = new Pagador();
+                var cpfCnpj = registro.Substring(130, 15).Trim();
+                if (!string.IsNullOrEmpty(cpfCnpj))
+                {
+                    boleto.Pagador.CPFCNPJ = cpfCnpj.Left(4) == "0000" ? cpfCnpj.Right(11) : cpfCnpj;
+                }
+
+                // Registro Retorno
+                boleto.RegistroArquivoRetorno = boleto.RegistroArquivoRetorno + registro + Environment.NewLine;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao ler detalhe do arquivo de RETORNO / CNAB 150 / T.", ex);
             }
         }
     }

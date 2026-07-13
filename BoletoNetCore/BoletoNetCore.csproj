@@ -1,20 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <PackageId>BoletoNetCore</PackageId>
+    <PackageId>Ejsilva.BoletoNetCore</PackageId>
     <title>BoletoNetCore</title>
-    <version>3.0.0</version>
+    <version>3.0.1.526</version>
     <authors>BoletoNetCore</authors>
     <owners>BoletoNetCore</owners>
     <projectUrl>https://github.com/BoletoNet/BoletoNetCore/</projectUrl>
     <iconUrl>https://https://avatars2.githubusercontent.com/u/10621326?v=3amp;s=200</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      BoletoNetCore is a library developed for use in Brazil, given it has been programmed with Brazilian retail legislation and business rules for bank registered billing integration.
-      Boleto.Net é um componente desenvolvido em C# e ASP.Net e contempla as seguintes funcionalidades:
+# Atenção: esse pacote é um fork do original BoletoNetCore #
+
+Boleto.Net é um componente desenvolvido em C# e ASP.Net e contempla as seguintes funcionalidades:
       Emissão e Impressão de Boletos Bancários
-      Geração de Arquivo de Remessa (CNAB 240 e 400)
-      Leitura do Arquivo de Retorno (CNAB 240 e 400)</description>
+      Geração de Arquivo de Remessa (CNAB 240,400,150)
+      Leitura do Arquivo de Retorno (CNAB 240,400,150)</description>
     <summary>BoletoNetCore is a library developed for use in Brazil, given it has been programmed with Brazilian retail legislation and business rules for bank registered billing integration.</summary>
     <releaseNotes>A versão 3.0 está sendo reescrita. Alguns bancos/carteiras podem não estar disponíveis.</releaseNotes>
     <tags>boleto cnab banco</tags>
@@ -23,7 +24,10 @@
     <OutputType>Library</OutputType>
     <StartupObject />
     <IsPackable>true</IsPackable>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +41,18 @@
   <ItemGroup>
     <None Remove="BoletoImpressao\Parts\Pix.html" />
     <None Remove="Imagens\085.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="Banco\Banrisul\BancoBanrisul.CNAB150.cs" />
   </ItemGroup>
 
   <ItemGroup>

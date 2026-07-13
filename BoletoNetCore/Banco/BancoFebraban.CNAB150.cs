@@ -4,9 +4,9 @@ using static System.String;
 
 namespace BoletoNetCore
 {
-    partial class BancoSantander : IBancoCNAB150
+    partial class BancoFebraban<T>
     {
-        public override string GerarHeaderRemessaCNAB150(ref int numeroArquivoRemessa, ref int numeroRegistro)
+        public virtual string GerarHeaderRemessaCNAB150(ref int numeroArquivoRemessa, ref int numeroRegistro)
         {
             try
             {
@@ -15,8 +15,8 @@ namespace BoletoNetCore
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0002, 001, 0, "1", '0');
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0003, 020, 0, Beneficiario.Codigo, '0');
                 reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0023, 020, 0, Beneficiario.Nome, ' ');
-                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0043, 003, 0, "033", '0');
-                reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0046, 020, 0, "BANCO SANTANDER", ' ');
+                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0043, 003, 0, 0, '0');
+                reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0046, 020, 0, "BANCO XXXXXXX", ' ');
                 reg.Adicionar(TTiposDadoEDI.ediDataAAAAMMDD_________, 0066, 008, 0, DateTime.Now, ' ');
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0074, 006, 0, numeroArquivoRemessa, '0');
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0080, 002, 0, "06", '0');
@@ -30,8 +30,7 @@ namespace BoletoNetCore
                 throw new Exception("Erro ao gerar HEADER do arquivo de remessa do CNAB150.", ex);
             }
         }
-
-        public override string GerarTrailerRemessaCNAB150(int numeroRegistroGeral, decimal valorBoletoGeral, int numeroRegistroCobrancaSimples, decimal valorCobrancaSimples, int numeroRegistroCobrancaVinculada, decimal valorCobrancaVinculada, int numeroRegistroCobrancaCaucionada, decimal valorCobrancaCaucionada, int numeroRegistroCobrancaDescontada, decimal valorCobrancaDescontada)
+        public virtual string GerarTrailerRemessaCNAB150(int numeroRegistroGeral, decimal valorBoletoGeral, int numeroRegistroCobrancaSimples, decimal valorCobrancaSimples, int numeroRegistroCobrancaVinculada, decimal valorCobrancaVinculada, int numeroRegistroCobrancaCaucionada, decimal valorCobrancaCaucionada, int numeroRegistroCobrancaDescontada, decimal valorCobrancaDescontada)
         {
             try
             {
@@ -50,7 +49,7 @@ namespace BoletoNetCore
                 throw new Exception("Erro ao gerar TRAILER no arquivo de remessa do CNAB150.", ex);
             }
         }
-        public override string GerarTrailerLoteRemessaCNAB150(ref int numeroArquivoRemessa, int numeroRegistroGeral, decimal valorBoletoGeral, int numeroRegistroCobrancaSimples, decimal valorCobrancaSimples, int numeroRegistroCobrancaVinculada, decimal valorCobrancaVinculada, int numeroRegistroCobrancaCaucionada, decimal valorCobrancaCaucionada, int numeroRegistroCobrancaDescontada, decimal valorCobrancaDescontada)
+        public virtual string GerarTrailerLoteRemessaCNAB150(ref int numeroArquivoRemessa, int numeroRegistroGeral, decimal valorBoletoGeral, int numeroRegistroCobrancaSimples, decimal valorCobrancaSimples, int numeroRegistroCobrancaVinculada, decimal valorCobrancaVinculada, int numeroRegistroCobrancaCaucionada, decimal valorCobrancaCaucionada, int numeroRegistroCobrancaDescontada, decimal valorCobrancaDescontada)
         {
             try
             {
@@ -73,7 +72,7 @@ namespace BoletoNetCore
             }
         }
 
-        public override string GerarDetalheRemessaCNAB150(Boleto boleto, ref int registro)
+        public virtual string GerarDetalheRemessaCNAB150(Boleto boleto, ref int registro)
         {
             string detalhe = Empty;
             detalhe += GerarDetalheSegmentoERemessaCNAB150(boleto, ref registro);
@@ -105,7 +104,7 @@ namespace BoletoNetCore
             return vLinha;
         }
 
-        public override void LerHeaderRetornoCNAB150(ArquivoRetorno arquivoRetorno, string registro)
+        public virtual void LerHeaderRetornoCNAB150(ArquivoRetorno arquivoRetorno, string registro)
         {
             arquivoRetorno.Banco.Beneficiario = new Beneficiario();
             arquivoRetorno.Banco.Beneficiario.Codigo = registro.Substring(2, 20).Trim();
@@ -117,11 +116,11 @@ namespace BoletoNetCore
             arquivoRetorno.NumeroSequencial = Utils.ToInt32(registro.Substring(73, 6));
         }
 
-        public override void LerDetalheRetornoCNAB150SegmentoF(ref Boleto boleto, string registro)
+        public virtual void LerDetalheRetornoCNAB150SegmentoF(ref Boleto boleto, string registro)
         {
             try
             {
-                boleto.NumeroControleParticipante = registro.Substring(1, 25);
+                boleto.NumeroControleParticipante = registro.Substring(1, 25);         
 
                 boleto.AgenciaDebitada = registro.Substring(26, 4);
                 boleto.ContaDebitada = registro.Substring(30, 14);
@@ -153,6 +152,7 @@ namespace BoletoNetCore
             {
                 throw new Exception("Erro ao ler detalhe do arquivo de RETORNO / CNAB 150 / T.", ex);
             }
+
         }
     }
 }

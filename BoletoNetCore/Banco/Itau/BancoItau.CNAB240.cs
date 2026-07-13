@@ -412,7 +412,7 @@ namespace BoletoNetCore
 
                 boleto.ContaDebitada = registro.Substring(36, 5);
 
-                boleto.DigitoVerificadorAgenciaContaDebitada = registro.Substring(42, 1);
+                boleto.DigitoVerificadorContaDebitada = registro.Substring(42, 1);
 
                 boleto.NumeroDocumento = registro.Substring(73, 15).Trim();
 

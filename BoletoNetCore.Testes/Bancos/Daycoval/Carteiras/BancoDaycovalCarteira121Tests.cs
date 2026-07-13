@@ -32,11 +32,17 @@ namespace BoletoNetCore.Testes
         {
             TestUtils.TestarHomologacao(_banco, TipoArquivo.CNAB400, nameof(BancoDaycovalCarteira121), 3, true, "?", 84580106);
         }
+        [TestCase(2711.12, "84580104", "000002A", "1", "00019/121/0084580104-5", "70791132800002711120001121193443600845801045", "70790.00118 21193.443609 08458.010454 1 13280000271112", 2026, 01, 16)]
+        [TestCase(2717.12, "84580102", "000002A", "2", "00019/121/0084580102-9", "70792132800002717120001121193443600845801029", "70790.00118 21193.443609 08458.010298 2 13280000271712", 2026, 01, 16)]
+        [TestCase(2717.12, "84580103", "000002A", "3", "00019/121/0084580103-7", "70793132800002717120001121193443600845801037", "70790.00118 21193.443609 08458.010371 3 13280000271712", 2026, 01, 16)]
+        [TestCase(2717.12, "84580104", "000002A", "4", "00019/121/0084580104-5", "70794132800002717120001121193443600845801045", "70790.00118 21193.443609 08458.010454 4 13280000271712", 2026, 01, 16)]
+        [TestCase(2712.12, "84580102", "000002A", "5", "00019/121/0084580102-9", "70795132800002712120001121193443600845801029", "70790.00118 21193.443609 08458.010298 5 13280000271212", 2026, 01, 16)]
+        [TestCase(2714.12, "84580102", "000002A", "6", "00019/121/0084580102-9", "70796132800002714120001121193443600845801029", "70790.00118 21193.443609 08458.010298 6 13280000271412", 2026, 01, 16)]
+        [TestCase(2711.12, "84580101", "000002A", "7", "00019/121/0084580101-1", "70797132800002711120001121193443600845801011", "70790.00118 21193.443609 08458.010116 7 13280000271112", 2026, 01, 16)]
+        [TestCase(2711.12, "84580107", "000002A", "8", "00019/121/0084580107-8", "70798132800002711120001121193443600845801078", "70790.00118 21193.443609 08458.010785 8 13280000271112", 2026, 01, 16)]
+        [TestCase(141.50,  "84580106", "000001A", "9", "00019/121/0084580106-0", "70799166200000141500001121193443600845801060", "70790.00118 21193.443609 08458.010603 9 16620000014150", 2026, 12, 16)]
         //                                                                                                                        70790.00118 21194.346306 08458.010868 9 10250000100000
-        [TestCase(141.50,  "84580106", "000001A", "8", "00019/121/0084580106-0", "70798993200000141500001121193443600845801060", "70790.00118 21193.443609 08458.010603 8 99320000014150", 2024,12, 16)]
-        [TestCase(2711.12, "84580107", "000002A", "2", "00019/121/0084580107-8", "70792996300002711120001121193443600845801078", "70790.00118 21193.443609 08458.010785 2 99630000271112", 2025, 01, 16)]
-        [TestCase(645.39,  "84580108", "000001B", "4", "00019/121/0084580108-6", "70794104200000645390001121193443600845801086", "70790.00118 21193.443609 08458.010868 4 10420000064539", 2025, 4, 05)]
-        public void Deve_criar_boleto_daycoval_01_com_digito_verificador_valido(decimal valorTitulo, string nossoNumero, string numeroDocumento, string digitoVerificador, string nossoNumeroFormatado, string codigoDeBarras, string linhaDigitavel, params int[] anoMesDia)
+        public void Deve_criar_boleto_daycoval_01_com_digito_verificador_Nossonr_Barra_valido(decimal valorTitulo, string nossoNumero, string numeroDocumento, string digitoVerificador, string nossoNumeroFormatado, string codigoDeBarras, string linhaDigitavel, params int[] anoMesDia)
         {
             //Ambiente
             var boleto = new Boleto(_banco)
@@ -54,79 +60,9 @@ namespace BoletoNetCore.Testes
 
             //Assertivas
             Assert.That(boleto.CodigoBarra.DigitoVerificador, Is.EqualTo(digitoVerificador), $"Dígito Verificador diferente de {digitoVerificador}");
-        }
-
-
-        [TestCase(141.50, "84580106", "000001A", "8", "00019/121/0084580106-0", "70798993200000141500001121193443600845801060", "70790.00118 21193.443609 08458.010603 8 99320000014150", 2024, 12, 16)]
-        [TestCase(2711.12, "84580107", "000002A", "2", "00019/121/0084580107-8", "70792996300002711120001121193443600845801078", "70790.00118 21193.443609 08458.010785 2 99630000271112", 2025, 01, 16)]
-        [TestCase(645.39, "84580108", "000001B", "4", "00019/121/0084580108-6", "70794104200000645390001121193443600845801086", "70790.00118 21193.443609 08458.010868 4 10420000064539", 2025, 4, 05)]
-        public void Deve_criar_boleto_daycoval_01_com_nosso_numero_formatado_valido(decimal valorTitulo, string nossoNumero, string numeroDocumento, string digitoVerificador, string nossoNumeroFormatado, string codigoDeBarras, string linhaDigitavel, params int[] anoMesDia)
-        {
-            //Ambiente
-            var boleto = new Boleto(_banco)
-            {
-                DataVencimento = new DateTime(anoMesDia[0], anoMesDia[1], anoMesDia[2]),
-                ValorTitulo = valorTitulo,
-                NossoNumero = nossoNumero,
-                NumeroDocumento = numeroDocumento,
-                EspecieDocumento = TipoEspecieDocumento.DM,
-                Pagador = TestUtils.GerarPagador()
-            };
-
-            //Ação
-            boleto.ValidarDados();
-
-            //Assertivas 
             Assert.That(boleto.NossoNumeroFormatado, Is.EqualTo(nossoNumeroFormatado), "Nosso número inválido");
-        }
-
-
-        [TestCase(141.50, "84580106", "000001A", "8", "00019/121/0084580106-0", "70798993200000141500001121193443600845801060", "70790.00118 21193.443609 08458.010603 8 99320000014150", 2024, 12, 16)]
-        [TestCase(2711.12, "84580107", "000002A", "2", "00019/121/0084580107-8", "70792996300002711120001121193443600845801078", "70790.00118 21193.443609 08458.010785 2 99630000271112", 2025, 01, 16)]
-        [TestCase(645.39, "84580108", "000001B", "4", "00019/121/0084580108-6", "70794104200000645390001121193443600845801086", "70790.00118 21193.443609 08458.010868 4 10420000064539", 2025, 4, 05)]
-        public void Deve_criar_boleto_daycoval_01_com_codigo_de_barras_valido(decimal valorTitulo, string nossoNumero, string numeroDocumento, string digitoVerificador, string nossoNumeroFormatado, string codigoDeBarras, string linhaDigitavel, params int[] anoMesDia)
-        {
-            //Ambiente
-            var boleto = new Boleto(_banco)
-            {
-                DataVencimento = new DateTime(anoMesDia[0], anoMesDia[1], anoMesDia[2]),
-                ValorTitulo = valorTitulo,
-                NossoNumero = nossoNumero,
-                NumeroDocumento = numeroDocumento,
-                EspecieDocumento = TipoEspecieDocumento.DM,
-                Pagador = TestUtils.GerarPagador()
-            };
-
-            //Ação
-            boleto.ValidarDados();
-
-            //Assertivas 
             Assert.That(boleto.CodigoBarra.CodigoDeBarras, Is.EqualTo(codigoDeBarras), "Código de Barra inválido");
-        }
-
-
-        [TestCase(141.50, "84580106", "000001A", "8", "00019/121/0084580106-0", "70798993200000141500001121193443600845801060", "70790.00118 21193.443609 08458.010603 8 99320000014150", 2024, 12, 16)]
-        [TestCase(2711.12, "84580107", "000002A", "2", "00019/121/0084580107-8", "70792996300002711120001121193443600845801078", "70790.00118 21193.443609 08458.010785 2 99630000271112", 2025, 01, 16)]
-        [TestCase(645.39, "84580108", "000001B", "4", "00019/121/0084580108-6", "70794104200000645390001121193443600845801086", "70790.00118 21193.443609 08458.010868 4 10420000064539", 2025, 4, 05)]
-        public void Deve_criar_boleto_daycoval_01_com_linha_digitavel_valida(decimal valorTitulo, string nossoNumero, string numeroDocumento, string digitoVerificador, string nossoNumeroFormatado, string codigoDeBarras, string linhaDigitavel, params int[] anoMesDia)
-        {
-            //Ambiente
-            var boleto = new Boleto(_banco)
-            {
-                DataVencimento = new DateTime(anoMesDia[0], anoMesDia[1], anoMesDia[2]),
-                ValorTitulo = valorTitulo,
-                NossoNumero = nossoNumero,
-                NumeroDocumento = numeroDocumento,
-                EspecieDocumento = TipoEspecieDocumento.DM,
-                Pagador = TestUtils.GerarPagador()
-            };
-
-            //Ação
-            boleto.ValidarDados();
-
-            //Assertivas 
             Assert.That(boleto.CodigoBarra.LinhaDigitavel, Is.EqualTo(linhaDigitavel), "Linha digitável inválida");
         }
-
     }
 }

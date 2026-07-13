@@ -4,7 +4,7 @@ using static System.String;
 
 namespace BoletoNetCore
 {
-    partial class BancoSantander : IBancoCNAB150
+    partial class BancoSicredi : IBancoCNAB150
     {
         public override string GerarHeaderRemessaCNAB150(ref int numeroArquivoRemessa, ref int numeroRegistro)
         {
@@ -15,8 +15,8 @@ namespace BoletoNetCore
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0002, 001, 0, "1", '0');
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0003, 020, 0, Beneficiario.Codigo, '0');
                 reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0023, 020, 0, Beneficiario.Nome, ' ');
-                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0043, 003, 0, "033", '0');
-                reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0046, 020, 0, "BANCO SANTANDER", ' ');
+                reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0043, 003, 0, "748", '0');
+                reg.Adicionar(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0046, 020, 0, "SICREDI", ' ');
                 reg.Adicionar(TTiposDadoEDI.ediDataAAAAMMDD_________, 0066, 008, 0, DateTime.Now, ' ');
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0074, 006, 0, numeroArquivoRemessa, '0');
                 reg.Adicionar(TTiposDadoEDI.ediNumericoSemSeparador_, 0080, 002, 0, "06", '0');
