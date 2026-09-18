@@ -257,7 +257,7 @@ namespace BoletoNetCore
 
                 // Identificação do Título no Banco
                 boleto.NossoNumero = registro.Substring(62, 8); //Sem o DV
-                boleto.NossoNumeroFormatado = boleto.NossoNumero + "-" + boleto.NossoNumeroDV;
+                boleto.NossoNumeroFormatado = boleto.NossoNumero;
 
 
                 // Identificação de Ocorrência
